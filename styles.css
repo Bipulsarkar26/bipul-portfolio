@@ -85,6 +85,8 @@ html[data-theme="light"] body{background:var(--bg);color:var(--text)}
 html[data-theme="light"] .site-header{background:rgba(248,250,252,.74);color:#172027;border-color:rgba(255,255,255,.9)}
 html[data-theme="light"] .hero:before{background:linear-gradient(180deg,rgba(0,0,0,.18) 0%,rgba(0,0,0,.19) 35%,rgba(0,0,0,.83) 100%)}
 html[data-theme="light"] .hero-shade{background:linear-gradient(90deg,rgba(0,0,0,.32),transparent 75%)}
+html[data-theme="light"] .hero h1,html[data-theme="light"] .hero-role{color:#f1f0ed}
+html[data-theme="light"] .hero-copy{color:#d0d0d0}
 html[data-theme="light"] .section-intro,html[data-theme="light"] .about-copy>p:not(.eyebrow),html[data-theme="light"] .service-card p,html[data-theme="light"] .process-grid p{color:var(--muted)}
 html[data-theme="light"] .service-card,html[data-theme="light"] .quote-card,html[data-theme="light"] .process-grid article{color:var(--text)}
 html[data-theme="light"] .quote-card blockquote{color:#303a42}
