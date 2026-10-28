@@ -115,3 +115,55 @@ html[data-theme="light"] .contact-form input,html[data-theme="light"] .contact-f
 @media(prefers-reduced-transparency:reduce){
   .site-header,.theme-toggle,.project-media,.service-card,.quote-card,.process-grid article,.availability,.contact-form input,.contact-form textarea,.contact-form select,.mobile-dock{backdrop-filter:none;-webkit-backdrop-filter:none}
 }
+
+/* Give every call-to-action and content block the same polished glass finish. */
+.button,.filter,.availability{
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:999px;
+  box-shadow:inset 0 1px rgba(255,255,255,.22),0 10px 28px rgba(0,0,0,.16);
+}
+.button{background:linear-gradient(145deg,rgba(255,255,255,.14),rgba(255,255,255,.035));}
+.button-orange,.button-orange:hover{
+  color:#fff;
+  border-color:rgba(255,255,255,.4);
+  background:linear-gradient(145deg,rgba(255,255,255,.24),transparent 48%),linear-gradient(130deg,rgba(255,112,72,.84),rgba(215,58,28,.78));
+  box-shadow:inset 0 1px rgba(255,255,255,.4),0 10px 30px rgba(255,84,39,.2);
+}
+.button-outline,.hero .button-outline{
+  border-color:rgba(255,255,255,.38);
+  background:linear-gradient(145deg,rgba(255,255,255,.15),rgba(255,255,255,.045));
+  box-shadow:inset 0 1px rgba(255,255,255,.22),0 10px 28px rgba(0,0,0,.15);
+}
+.button:hover,.filter:hover,.availability:hover{border-color:rgba(255,255,255,.48);box-shadow:inset 0 1px rgba(255,255,255,.32),0 14px 34px rgba(0,0,0,.2)}
+.filter{padding-inline:18px;background:linear-gradient(145deg,rgba(255,255,255,.11),rgba(255,255,255,.025))}
+.filter.active{background:linear-gradient(145deg,rgba(255,255,255,.25),rgba(255,255,255,.08));border-color:rgba(255,255,255,.38);color:var(--text)}
+.service-card,.quote-card,.process-grid article{
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:18px;
+  background:linear-gradient(145deg,rgba(255,255,255,.105),rgba(255,255,255,.025) 62%),var(--glass-bg);
+  box-shadow:inset 0 1px rgba(255,255,255,.2),0 18px 46px rgba(0,0,0,.15);
+  backdrop-filter:blur(22px) saturate(160%);
+  -webkit-backdrop-filter:blur(22px) saturate(160%);
+}
+.service-card::before,.quote-card::before,.process-grid article::before{
+  content:"";position:absolute;z-index:0;top:0;left:9%;width:82%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.58),transparent);
+  pointer-events:none;
+}
+.service-card>* ,.quote-card>* ,.process-grid article>*{position:relative;z-index:1}
+.quote-card{border-top:1px solid rgba(255,255,255,.16);padding:30px 28px}
+.quote-card.featured{border-top:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1px rgba(255,255,255,.2),0 18px 46px rgba(255,84,39,.08)}
+.process-grid article{padding:24px 20px;transition:transform .25s,border-color .25s,background .25s}
+.service-card:hover,.process-grid article:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.32);background:linear-gradient(145deg,rgba(255,255,255,.15),rgba(255,255,255,.04) 62%),var(--glass-bg-strong)}
+.availability{padding:9px 16px;background:linear-gradient(145deg,rgba(255,255,255,.13),rgba(255,255,255,.035)),var(--glass-bg);box-shadow:inset 0 1px rgba(255,255,255,.2),0 10px 28px rgba(0,0,0,.14)}
+html[data-theme="light"] .service-card,html[data-theme="light"] .quote-card,html[data-theme="light"] .process-grid article{
+  border-color:rgba(255,255,255,.9);
+  background:linear-gradient(145deg,rgba(255,255,255,.86),rgba(255,255,255,.43) 62%),var(--glass-bg);
+  box-shadow:inset 0 1px white,0 18px 46px rgba(36,52,67,.09);
+}
+html[data-theme="light"] .service-card::before,html[data-theme="light"] .quote-card::before,html[data-theme="light"] .process-grid article::before{background:linear-gradient(90deg,transparent,rgba(255,255,255,.98),transparent)}
+html[data-theme="light"] .quote-card.featured{border-top-color:rgba(255,255,255,.9);box-shadow:inset 0 1px white,0 18px 46px rgba(36,52,67,.09)}
+html[data-theme="light"] .button,html[data-theme="light"] .filter,html[data-theme="light"] .availability{border-color:rgba(255,255,255,.9);box-shadow:inset 0 1px white,0 10px 28px rgba(36,52,67,.1)}
+@media(prefers-reduced-motion:reduce){.service-card,.process-grid article{transition:none}}
