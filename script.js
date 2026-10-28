@@ -1,4 +1,7 @@
 // Replace each video's youtube value with an unlisted YouTube URL when you're ready.
+// Add the unlisted YouTube URL for the home page background video here.
+const HERO_YOUTUBE_URL = '';
+
 const projects = [
   { title: 'Into the quiet', client: 'Terra Films · Sample project', category: 'Documentary', image: 'photo-1441974231531-c6227db76b6e', youtube: '' },
   { title: 'After hours', client: 'Velocity · Sample campaign', category: 'Ads', image: 'photo-1519608487953-e999c86e7455', youtube: '' },
@@ -54,6 +57,19 @@ function getYouTubeId(url) {
   } catch { return null; }
   return null;
 }
+
+function setupHeroVideo() {
+  const videoId = getYouTubeId(HERO_YOUTUBE_URL);
+  if (!videoId) return;
+  const layer = document.createElement('div');
+  layer.className = 'hero-video';
+  layer.setAttribute('aria-hidden', 'true');
+  const embedUrl = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&mute=1&loop=1&playlist=${encodeURIComponent(videoId)}&controls=0&modestbranding=1&playsinline=1&rel=0`;
+  layer.innerHTML = `<iframe src="${embedUrl}" title="" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" tabindex="-1"></iframe>`;
+  document.querySelector('.hero').prepend(layer);
+}
+setupHeroVideo();
+
 grid.addEventListener('click', event => {
   const media = event.target.closest('.project-media');
   if (media) playProject(media);

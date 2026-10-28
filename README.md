@@ -12,6 +12,8 @@ Open `script.js` and paste the unlisted YouTube URL into the matching project's 
 
 Supported links include `youtube.com/watch?v=…`, `youtu.be/…`, and YouTube embed or Shorts URLs. The thumbnail images and project names are illustrative placeholders and can be changed in the same `projects` list.
 
+For the looping home page background, paste the unlisted URL into `HERO_YOUTUBE_URL` near the top of `script.js`. It plays muted so browsers can autoplay it; the existing image stays visible if no URL is set or playback is unavailable.
+
 ## Before launch
 
 - Update the sample project cards, portrait, email, social destinations, and sample stats/testimonials as needed.
