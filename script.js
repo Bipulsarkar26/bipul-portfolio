@@ -89,17 +89,8 @@ function sendPlayerCommand(media, command) {
   if (!iframe?.contentWindow) return;
   iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: command, args: [] }), '*');
 }
-function setProjectSound(media, enabled, fromClick = false) {
+function setProjectSound(media, enabled) {
   sendPlayerCommand(media, enabled ? 'unMute' : 'mute');
-  if (fromClick) {
-    media.dataset.soundOn = String(enabled);
-    const control = media.querySelector('.video-sound-toggle');
-    if (control) {
-      control.textContent = enabled ? 'Sound on' : 'Enable sound';
-      control.setAttribute('aria-label', enabled ? 'Mute video sound' : 'Enable video sound');
-      control.setAttribute('aria-pressed', String(enabled));
-    }
-  }
 }
 function playProject(media, { userInitiated = false } = {}) {
   const url = media.dataset.youtube.trim();
@@ -112,19 +103,14 @@ function playProject(media, { userInitiated = false } = {}) {
   if (!videoId) return;
   if (media.querySelector('iframe')) {
     sendPlayerCommand(media, 'playVideo');
-    if (userInitiated) setProjectSound(media, true, true);
+    if (userInitiated) setProjectSound(media, true);
     return;
   }
   const origin = location.origin.startsWith('http') ? `&origin=${encodeURIComponent(location.origin)}` : '';
-  media.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&mute=${userInitiated ? 0 : 1}&controls=1&playsinline=1&enablejsapi=1&rel=0${origin}" title="${escapeAttribute(media.getAttribute('aria-label').replace(/^Play /, ''))}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe><button class="video-sound-toggle" type="button" aria-label="${userInitiated ? 'Mute video sound' : 'Enable video sound'}" aria-pressed="${userInitiated}">${userInitiated ? 'Sound on' : 'Enable sound'}</button>`;
+  media.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&mute=${userInitiated ? 0 : 1}&controls=1&playsinline=1&enablejsapi=1&rel=0${origin}" title="${escapeAttribute(media.getAttribute('aria-label').replace(/^Play /, ''))}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
   media.removeAttribute('role');
   media.removeAttribute('tabindex');
   media.removeAttribute('aria-label');
-  media.dataset.soundOn = String(userInitiated);
-  media.querySelector('.video-sound-toggle').addEventListener('click', event => {
-    event.stopPropagation();
-    setProjectSound(media, media.dataset.soundOn !== 'true', true);
-  });
 }
 function getYouTubeId(url) {
   try {
@@ -140,7 +126,6 @@ function getYouTubeId(url) {
 }
 
 grid.addEventListener('click', event => {
-  if (event.target.closest('.video-sound-toggle')) return;
   const media = event.target.closest('.project-media');
   if (media) playProject(media, { userInitiated: true });
 });
