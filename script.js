@@ -8,7 +8,10 @@ const projects = [
   { title: 'Kakalika', client: 'Sample Project', category: '', image: '', youtube: 'https://youtube.com/shorts/-8ylZEZ0hew?feature=share' },
   { title: 'Personal Brand 1', client: 'Sample Project', category: '', image: '', youtube: 'https://youtube.com/shorts/c6PBUYPMOP0?feature=share' },
   { title: 'Personal Brand 2', client: 'Sample Project', category: '', image: '', youtube: 'https://youtube.com/shorts/vEb7D38J7q4?feature=share' },
-  { title: 'Live Interviews', client: 'Sample Project', category: '', image: '', youtube: 'https://youtu.be/4rX4nM7UQI8' }
+  { title: 'Live Interviews', client: 'Sample Project', category: '', image: '', youtube: 'https://youtu.be/4rX4nM7UQI8' },
+  { title: 'Lyrics Video', client: 'Sample Project', category: '', image: '', youtube: 'https://youtube.com/shorts/CGyXDTb2BTs?feature=share' },
+  { title: 'Lyrics Video 2', client: 'Sample Project', category: '', image: '', youtube: 'https://youtube.com/shorts/ZMES6v5NB2U?feature=share' },
+  { title: 'Lyrics Video 3', client: 'Sample Project', category: '', image: '', youtube: 'https://youtube.com/shorts/gY3nIdRyjRw?feature=share' }
 ];
 
 const grid = document.querySelector('#project-grid');
