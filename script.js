@@ -150,6 +150,7 @@ if (dockLinks.length) {
     });
   }, { rootMargin: '-38% 0px -52% 0px', threshold: 0 });
   dockLinks.forEach(link => {
+    if (!link.hash) return;
     const section = document.querySelector(link.hash);
     if (section) dockObserver.observe(section);
   });
