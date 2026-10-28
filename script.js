@@ -96,16 +96,25 @@ grid.addEventListener('keydown', event => {
   }
 });
 
-const menuButton = document.querySelector('.menu-toggle');
-menuButton.addEventListener('click', () => {
-  const open = menuButton.getAttribute('aria-expanded') === 'true';
-  menuButton.setAttribute('aria-expanded', String(!open));
-  document.querySelector('.main-nav').classList.toggle('open', !open);
+const themeToggle = document.querySelector('.theme-toggle');
+const themeMeta = document.querySelector('meta[name="theme-color"]');
+function setTheme(theme, persist = true) {
+  const light = theme === 'light';
+  document.documentElement.dataset.theme = light ? 'light' : 'dark';
+  themeToggle.setAttribute('aria-checked', String(light));
+  themeToggle.setAttribute('aria-label', `Switch to ${light ? 'dark' : 'light'} theme`);
+  themeToggle.querySelector('.theme-label').textContent = light ? 'Light' : 'Dark';
+  themeMeta.content = light ? '#f2f4f6' : '#090909';
+  if (persist) {
+    try { localStorage.setItem('bipul-theme', light ? 'light' : 'dark'); } catch {}
+  }
+}
+let savedTheme = 'dark';
+try { savedTheme = localStorage.getItem('bipul-theme') || 'dark'; } catch {}
+setTheme(savedTheme, false);
+themeToggle.addEventListener('click', () => {
+  setTheme(themeToggle.getAttribute('aria-checked') === 'true' ? 'dark' : 'light');
 });
-document.querySelectorAll('.main-nav a').forEach(link => link.addEventListener('click', () => {
-  menuButton.setAttribute('aria-expanded', 'false');
-  document.querySelector('.main-nav').classList.remove('open');
-}));
 
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
@@ -113,3 +122,20 @@ const observer = new IntersectionObserver(entries => {
   });
 }, { threshold: .12 });
 document.querySelectorAll('.section').forEach(section => observer.observe(section));
+
+const dockLinks = [...document.querySelectorAll('.mobile-dock a')];
+if (dockLinks.length) {
+  const dockObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      dockLinks.forEach(link => {
+        if (link.hash === `#${entry.target.id}`) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      });
+    });
+  }, { rootMargin: '-38% 0px -52% 0px', threshold: 0 });
+  dockLinks.forEach(link => {
+    const section = document.querySelector(link.hash);
+    if (section) dockObserver.observe(section);
+  });
+}
