@@ -17,5 +17,4 @@ The home page background uses `assets/hero-background.mp4` in a native muted, in
 ## Before launch
 
 - Update the sample project cards, portrait, email, social destinations, and sample stats/testimonials as needed.
-- The inquiry form opens the visitor's email app and prepares a message to `sarkarbipul05286@gmail.com`; it does not store submissions on a server.
 - Deploy by connecting this repository to Vercel as a static site. No build command or output directory is needed.

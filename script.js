@@ -77,15 +77,6 @@ document.querySelectorAll('.main-nav a').forEach(link => link.addEventListener('
   document.querySelector('.main-nav').classList.remove('open');
 }));
 
-document.querySelector('#contact-form').addEventListener('submit', event => {
-  event.preventDefault();
-  const form = new FormData(event.currentTarget);
-  const subject = encodeURIComponent(`Video editing inquiry — ${form.get('type')}`);
-  const body = encodeURIComponent(`Name: ${form.get('name')}\nEmail: ${form.get('email')}\nProject type: ${form.get('type')}\n\n${form.get('message')}`);
-  document.querySelector('.form-feedback').textContent = 'Opening your email app…';
-  window.location.href = `mailto:sarkarbipul05286@gmail.com?subject=${subject}&body=${body}`;
-});
-
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) { entry.target.classList.add('in-view'); observer.unobserve(entry.target); }
