@@ -15,7 +15,7 @@ function renderProjects(filter = 'All Work') {
   grid.innerHTML = visible.map(project => `
     <article class="project-card">
       <div class="project-media" data-youtube="${escapeAttribute(project.youtube)}" role="button" tabindex="0" aria-label="Play ${escapeAttribute(project.title)}">
-        <img src="https://images.unsplash.com/${project.image}?auto=format&fit=crop&w=1200&q=82" alt="${escapeAttribute(project.title)} project still" loading="lazy">
+        <img src="https://images.unsplash.com/${project.image}?auto=format&fit=crop&w=1200&q=82" srcset="https://images.unsplash.com/${project.image}?auto=format&fit=crop&w=640&q=78 640w, https://images.unsplash.com/${project.image}?auto=format&fit=crop&w=960&q=80 960w, https://images.unsplash.com/${project.image}?auto=format&fit=crop&w=1200&q=82 1200w" sizes="(max-width: 650px) calc(100vw - 44px), (max-width: 900px) 46vw, 48vw" alt="${escapeAttribute(project.title)} project still" loading="lazy" decoding="async">
         <span class="play-button" aria-hidden="true">▷</span>
       </div>
       <div class="project-meta"><div><h3>${project.title}</h3><p>${project.client}</p></div><span class="tag">${project.category}</span></div>
@@ -23,6 +23,36 @@ function renderProjects(filter = 'All Work') {
 }
 function escapeAttribute(value) { return String(value).replace(/[&"<>']/g, char => ({'&':'&amp;','"':'&quot;','<':'&lt;','>':'&gt;',"'":'&#39;'}[char])); }
 renderProjects();
+
+// Mobile browsers can defer autoplay until the video is ready or the user
+// returns to the tab. Keep the poster visible as a clean fallback meanwhile.
+const heroVideo = document.querySelector('.hero-video');
+if (heroVideo) {
+  heroVideo.muted = true;
+  heroVideo.defaultMuted = true;
+  heroVideo.playsInline = true;
+  let retryArmed = false;
+  const startHeroVideo = () => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (document.visibilityState === 'hidden' || !heroVideo.paused) return;
+    const playAttempt = heroVideo.play();
+    if (playAttempt && typeof playAttempt.catch === 'function') {
+      playAttempt.catch(() => {
+        if (retryArmed) return;
+        retryArmed = true;
+        const retry = () => {
+          retryArmed = false;
+          startHeroVideo();
+        };
+        document.addEventListener('touchstart', retry, { once: true, passive: true });
+        document.addEventListener('click', retry, { once: true });
+      });
+    }
+  };
+  heroVideo.addEventListener('loadeddata', startHeroVideo);
+  document.addEventListener('visibilitychange', startHeroVideo);
+  startHeroVideo();
+}
 
 document.querySelector('.filters').addEventListener('click', event => {
   const button = event.target.closest('.filter');
