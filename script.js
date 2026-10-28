@@ -4,7 +4,11 @@ const projects = [
   { title: 'Shabang HighRise', client: 'Sample Project', category: '', image: 'photo-1441974231531-c6227db76b6e', youtube: 'https://youtu.be/ka4ZClQd04k' },
   { title: 'Classy Girls', client: 'Sample Project', category: '', image: '', youtube: 'https://youtube.com/shorts/96fqt3d1bW8?feature=share' },
   { title: 'Pop dat thing', client: 'Sample Project', category: '', image: '', youtube: 'https://youtube.com/shorts/ySiHSCM7N9Y?feature=share' },
-  { title: 'Outside Today', client: 'Sample Project', category: '', image: '', youtube: 'https://youtube.com/shorts/omC6cmrX89k?feature=share' }
+  { title: 'Outside Today', client: 'Sample Project', category: '', image: '', youtube: 'https://youtube.com/shorts/omC6cmrX89k?feature=share' },
+  { title: 'Kakalika', client: 'Sample Project', category: '', image: '', youtube: 'https://youtube.com/shorts/-8ylZEZ0hew?feature=share' },
+  { title: 'Personal Brand 1', client: 'Sample Project', category: '', image: '', youtube: 'https://youtube.com/shorts/c6PBUYPMOP0?feature=share' },
+  { title: 'Personal Brand 2', client: 'Sample Project', category: '', image: '', youtube: 'https://youtube.com/shorts/vEb7D38J7q4?feature=share' },
+  { title: 'Live Interviews', client: 'Sample Project', category: '', image: '', youtube: 'https://youtu.be/4rX4nM7UQI8' }
 ];
 
 const grid = document.querySelector('#project-grid');
