@@ -1,6 +1,6 @@
 // Replace each video's youtube value with an unlisted YouTube URL when you're ready.
 // Add the unlisted YouTube URL for the home page background video here.
-const HERO_YOUTUBE_URL = '';
+const HERO_YOUTUBE_URL = 'https://youtu.be/-MDfWuZx12k';
 
 const projects = [
   { title: 'Into the quiet', client: 'Terra Films · Sample project', category: 'Documentary', image: 'photo-1441974231531-c6227db76b6e', youtube: '' },
