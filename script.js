@@ -1,7 +1,7 @@
 // Replace each project's youtube value with an unlisted YouTube URL when you're ready.
 
 const projects = [
-  { title: 'Into the quiet', client: 'Terra Films · Sample project', category: 'Documentary', image: 'photo-1441974231531-c6227db76b6e', youtube: '' },
+  { title: 'Into the quiet', client: 'Terra Films · Sample project', category: 'Documentary', image: 'photo-1441974231531-c6227db76b6e', youtube: 'https://youtu.be/ka4ZClQd04k' },
   { title: 'After hours', client: 'Velocity · Sample campaign', category: 'Ads', image: 'photo-1519608487953-e999c86e7455', youtube: '' },
   { title: 'The last encore', client: 'Echo Records · Sample project', category: 'Music Video', image: 'photo-1506157786151-b8491531f063', youtube: '' },
   { title: 'City in motion', client: 'Studio 24 · Sample project', category: 'Reels / Shorts', image: 'photo-1519608487953-e999c86e7455', youtube: '' },
