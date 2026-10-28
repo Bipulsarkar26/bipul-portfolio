@@ -25,26 +25,31 @@ function renderProjects(filter = 'All Work') {
     const thumbnail = videoId
       ? `https://img.youtube.com/vi/${encodeURIComponent(videoId)}/maxresdefault.jpg`
       : `https://images.unsplash.com/${project.image}?auto=format&fit=crop&w=1200&q=82`;
-    const thumbnailFallback = videoId ? `data-fallback="https://img.youtube.com/vi/${encodeURIComponent(videoId)}/hqdefault.jpg"` : '';
+    const fallbackUrl = videoId ? `https://img.youtube.com/vi/${encodeURIComponent(videoId)}/hqdefault.jpg` : '';
+    const thumbnailFallback = fallbackUrl ? `data-fallback="${fallbackUrl}"` : '';
     const responsiveSources = videoId ? '' : `srcset="https://images.unsplash.com/${project.image}?auto=format&fit=crop&w=640&q=78 640w, https://images.unsplash.com/${project.image}?auto=format&fit=crop&w=960&q=80 960w, https://images.unsplash.com/${project.image}?auto=format&fit=crop&w=1200&q=82 1200w"`;
     return `
       <article class="project-card">
-        <div class="project-media" data-youtube="${escapeAttribute(project.youtube)}" role="button" tabindex="0" aria-label="Play ${escapeAttribute(project.title)}">
+        <div class="project-media" data-youtube="${escapeAttribute(project.youtube)}" data-thumbnail="${escapeAttribute(thumbnail)}" data-thumbnail-fallback="${escapeAttribute(fallbackUrl)}" data-project-title="${escapeAttribute(project.title)}" role="button" tabindex="0" aria-label="Play ${escapeAttribute(project.title)}">
           <img src="${thumbnail}" ${thumbnailFallback} ${responsiveSources} sizes="(max-width: 650px) calc(100vw - 44px), (max-width: 900px) 46vw, 48vw" alt="${escapeAttribute(project.title)} project still" loading="lazy" decoding="async">
           <span class="play-button" aria-hidden="true">▷</span>
         </div>
         <div class="project-meta"><div><h3>${escapeAttribute(project.title)}</h3><p>${escapeAttribute(project.client)}</p></div>${project.category ? `<span class="tag">${escapeAttribute(project.category)}</span>` : ''}</div>
       </article>`;
   }).join('');
-  grid.querySelectorAll('img[data-fallback]').forEach(image => image.addEventListener('error', () => {
-    image.src = image.dataset.fallback;
-    image.removeAttribute('srcset');
-    image.removeAttribute('data-fallback');
-  }, { once: true }));
+  attachThumbnailFallbacks(grid);
   grid.querySelectorAll('.project-media').forEach(media => projectVideoObserver?.observe(media));
 }
 function escapeAttribute(value) { return String(value).replace(/[&"<>']/g, char => ({'&':'&amp;','"':'&quot;','<':'&lt;','>':'&gt;',"'":'&#39;'}[char])); }
 renderProjects();
+
+function attachThumbnailFallbacks(scope) {
+  scope.querySelectorAll('img[data-fallback]').forEach(image => image.addEventListener('error', () => {
+    image.src = image.dataset.fallback;
+    image.removeAttribute('srcset');
+    image.removeAttribute('data-fallback');
+  }, { once: true }));
+}
 
 // Mobile browsers can defer autoplay until the video is ready or the user
 // returns to the tab. Keep the poster visible as a clean fallback meanwhile.
@@ -92,7 +97,21 @@ function sendPlayerCommand(media, command) {
 function setProjectSound(media, enabled) {
   sendPlayerCommand(media, enabled ? 'unMute' : 'mute');
 }
-function playProject(media, { userInitiated = false } = {}) {
+function restoreProjectPoster(media) {
+  const title = media.dataset.projectTitle || 'Portfolio video';
+  const fallback = media.dataset.thumbnailFallback
+    ? `data-fallback="${escapeAttribute(media.dataset.thumbnailFallback)}"`
+    : '';
+  media.innerHTML = `<img src="${escapeAttribute(media.dataset.thumbnail)}" ${fallback} sizes="(max-width: 650px) calc(100vw - 44px), (max-width: 900px) 46vw, 48vw" alt="${escapeAttribute(title)} project still" loading="lazy" decoding="async"><span class="play-button" aria-hidden="true">▷</span>`;
+  media.setAttribute('role', 'button');
+  media.setAttribute('tabindex', '0');
+  media.setAttribute('aria-label', `Play ${title}`);
+  attachThumbnailFallbacks(media);
+}
+function stopProjectMedia(media) {
+  if (media?.querySelector('iframe')) restoreProjectPoster(media);
+}
+function playProject(media, { userInitiated = false, trySound = false } = {}) {
   const url = media.dataset.youtube.trim();
   if (!url) {
     media.classList.add('needs-video');
@@ -104,13 +123,19 @@ function playProject(media, { userInitiated = false } = {}) {
   if (media.querySelector('iframe')) {
     sendPlayerCommand(media, 'playVideo');
     if (userInitiated) setProjectSound(media, true);
+    else if (trySound) setProjectSound(media, true);
     return;
   }
   const origin = location.origin.startsWith('http') ? `&origin=${encodeURIComponent(location.origin)}` : '';
-  media.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&mute=${userInitiated ? 0 : 1}&controls=1&playsinline=1&enablejsapi=1&rel=0${origin}" title="${escapeAttribute(media.getAttribute('aria-label').replace(/^Play /, ''))}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+  media.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&mute=${userInitiated ? 0 : 1}&controls=1&playsinline=1&enablejsapi=1&rel=0${origin}" title="${escapeAttribute(media.dataset.projectTitle)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
   media.removeAttribute('role');
   media.removeAttribute('tabindex');
   media.removeAttribute('aria-label');
+  if (trySound && !userInitiated) {
+    media.querySelector('iframe').addEventListener('load', () => {
+      if (activeProjectMedia === media && media.matches(':hover')) setProjectSound(media, true);
+    }, { once: true });
+  }
 }
 function getYouTubeId(url) {
   try {
@@ -127,24 +152,33 @@ function getYouTubeId(url) {
 
 grid.addEventListener('click', event => {
   const media = event.target.closest('.project-media');
-  if (media) playProject(media, { userInitiated: true });
+  if (media) {
+    if (activeProjectMedia && activeProjectMedia !== media) stopProjectMedia(activeProjectMedia);
+    activeProjectMedia = media;
+    playProject(media, { userInitiated: true });
+  }
 });
 grid.addEventListener('keydown', event => {
   if ((event.key === 'Enter' || event.key === ' ') && event.target.matches('.project-media')) {
-    event.preventDefault(); playProject(event.target, { userInitiated: true });
+    event.preventDefault();
+    if (activeProjectMedia && activeProjectMedia !== event.target) stopProjectMedia(activeProjectMedia);
+    activeProjectMedia = event.target;
+    playProject(event.target, { userInitiated: true });
   }
 });
 
-// Autoplay the most visible portfolio video muted, pause it when it leaves
-// view, and attempt sound on desktop pointer entry. A tap can always enable it.
+// Desktop playback follows the pointer. Touch devices play only the card that
+// occupies the strongest part of the viewport. Leaving focus restores its poster.
+const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
 if ('IntersectionObserver' in window) {
   projectVideoObserver = new IntersectionObserver(entries => {
+    if (finePointer.matches) return;
     entries.forEach(entry => projectVisibility.set(entry.target, entry.isIntersecting ? entry.intersectionRatio : 0));
     const nextMedia = [...projectVisibility.entries()]
       .filter(([, ratio]) => ratio >= .58)
       .sort((a, b) => b[1] - a[1])[0]?.[0] || null;
     if (nextMedia === activeProjectMedia) return;
-    if (activeProjectMedia) sendPlayerCommand(activeProjectMedia, 'pauseVideo');
+    if (activeProjectMedia) stopProjectMedia(activeProjectMedia);
     activeProjectMedia = nextMedia;
     if (activeProjectMedia && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) playProject(activeProjectMedia);
   }, { threshold: [.58, .8], rootMargin: '0px' });
@@ -152,10 +186,22 @@ if ('IntersectionObserver' in window) {
 }
 grid.addEventListener('pointerover', event => {
   const media = event.target.closest('.project-media');
-  if (!media || event.pointerType !== 'mouse' || media.contains(event.relatedTarget)) return;
+  if (!media || !finePointer.matches || event.pointerType !== 'mouse' || media.contains(event.relatedTarget)) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  if (media.querySelector('iframe')) setProjectSound(media, true);
-  else playProject(media);
+  if (activeProjectMedia && activeProjectMedia !== media) stopProjectMedia(activeProjectMedia);
+  activeProjectMedia = media;
+  if (media.querySelector('iframe')) {
+    sendPlayerCommand(media, 'playVideo');
+    setProjectSound(media, true);
+  } else playProject(media, { trySound: true });
+});
+grid.addEventListener('pointerout', event => {
+  const media = event.target.closest('.project-media');
+  if (!media || !finePointer.matches || media.contains(event.relatedTarget)) return;
+  if (activeProjectMedia === media) {
+    stopProjectMedia(media);
+    activeProjectMedia = null;
+  }
 });
 
 const themeToggle = document.querySelector('.theme-toggle');
