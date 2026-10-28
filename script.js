@@ -54,8 +54,8 @@ function attachThumbnailFallbacks(scope) {
   }, { once: true }));
 }
 
-// Mobile browsers can defer autoplay until the video is ready or the user
-// returns to the tab. Keep the poster visible as a clean fallback meanwhile.
+// Mobile browsers can defer autoplay until the video is ready or the page
+// returns to the foreground. Retry then, and after a user gesture if required.
 const heroVideo = document.querySelector('.hero-video');
 if (heroVideo) {
   heroVideo.muted = true;
@@ -79,7 +79,10 @@ if (heroVideo) {
       });
     }
   };
-  heroVideo.addEventListener('loadeddata', startHeroVideo);
+  ['loadedmetadata', 'loadeddata', 'canplay'].forEach(eventName =>
+    heroVideo.addEventListener(eventName, startHeroVideo, { passive: true })
+  );
+  window.addEventListener('pageshow', startHeroVideo, { passive: true });
   document.addEventListener('visibilitychange', startHeroVideo);
   startHeroVideo();
 }
