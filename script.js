@@ -1,7 +1,7 @@
 // Replace each project's youtube value with an unlisted YouTube URL when you're ready.
 
 const projects = [
-  { title: 'Into the quiet', client: 'Terra Films · Sample project', category: 'Documentary', image: 'photo-1441974231531-c6227db76b6e', youtube: 'https://youtu.be/ka4ZClQd04k' },
+  { title: 'Shabang HighRise', client: 'Sample Project', category: '', image: 'photo-1441974231531-c6227db76b6e', youtube: 'https://youtu.be/ka4ZClQd04k' },
   { title: 'After hours', client: 'Velocity · Sample campaign', category: 'Ads', image: 'photo-1519608487953-e999c86e7455', youtube: '' },
   { title: 'The last encore', client: 'Echo Records · Sample project', category: 'Music Video', image: 'photo-1506157786151-b8491531f063', youtube: '' },
   { title: 'City in motion', client: 'Studio 24 · Sample project', category: 'Reels / Shorts', image: 'photo-1519608487953-e999c86e7455', youtube: '' },
@@ -12,14 +12,27 @@ const projects = [
 const grid = document.querySelector('#project-grid');
 function renderProjects(filter = 'All Work') {
   const visible = projects.filter(project => filter === 'All Work' || project.category === filter);
-  grid.innerHTML = visible.map(project => `
-    <article class="project-card">
-      <div class="project-media" data-youtube="${escapeAttribute(project.youtube)}" role="button" tabindex="0" aria-label="Play ${escapeAttribute(project.title)}">
-        <img src="https://images.unsplash.com/${project.image}?auto=format&fit=crop&w=1200&q=82" srcset="https://images.unsplash.com/${project.image}?auto=format&fit=crop&w=640&q=78 640w, https://images.unsplash.com/${project.image}?auto=format&fit=crop&w=960&q=80 960w, https://images.unsplash.com/${project.image}?auto=format&fit=crop&w=1200&q=82 1200w" sizes="(max-width: 650px) calc(100vw - 44px), (max-width: 900px) 46vw, 48vw" alt="${escapeAttribute(project.title)} project still" loading="lazy" decoding="async">
-        <span class="play-button" aria-hidden="true">▷</span>
-      </div>
-      <div class="project-meta"><div><h3>${project.title}</h3><p>${project.client}</p></div><span class="tag">${project.category}</span></div>
-    </article>`).join('');
+  grid.innerHTML = visible.map(project => {
+    const videoId = getYouTubeId(project.youtube);
+    const thumbnail = videoId
+      ? `https://img.youtube.com/vi/${encodeURIComponent(videoId)}/maxresdefault.jpg`
+      : `https://images.unsplash.com/${project.image}?auto=format&fit=crop&w=1200&q=82`;
+    const thumbnailFallback = videoId ? `data-fallback="https://img.youtube.com/vi/${encodeURIComponent(videoId)}/hqdefault.jpg"` : '';
+    const responsiveSources = videoId ? '' : `srcset="https://images.unsplash.com/${project.image}?auto=format&fit=crop&w=640&q=78 640w, https://images.unsplash.com/${project.image}?auto=format&fit=crop&w=960&q=80 960w, https://images.unsplash.com/${project.image}?auto=format&fit=crop&w=1200&q=82 1200w"`;
+    return `
+      <article class="project-card">
+        <div class="project-media" data-youtube="${escapeAttribute(project.youtube)}" role="button" tabindex="0" aria-label="Play ${escapeAttribute(project.title)}">
+          <img src="${thumbnail}" ${thumbnailFallback} ${responsiveSources} sizes="(max-width: 650px) calc(100vw - 44px), (max-width: 900px) 46vw, 48vw" alt="${escapeAttribute(project.title)} project still" loading="lazy" decoding="async">
+          <span class="play-button" aria-hidden="true">▷</span>
+        </div>
+        <div class="project-meta"><div><h3>${escapeAttribute(project.title)}</h3><p>${escapeAttribute(project.client)}</p></div>${project.category ? `<span class="tag">${escapeAttribute(project.category)}</span>` : ''}</div>
+      </article>`;
+  }).join('');
+  grid.querySelectorAll('img[data-fallback]').forEach(image => image.addEventListener('error', () => {
+    image.src = image.dataset.fallback;
+    image.removeAttribute('srcset');
+    image.removeAttribute('data-fallback');
+  }, { once: true }));
 }
 function escapeAttribute(value) { return String(value).replace(/[&"<>']/g, char => ({'&':'&amp;','"':'&quot;','<':'&lt;','>':'&gt;',"'":'&#39;'}[char])); }
 renderProjects();
