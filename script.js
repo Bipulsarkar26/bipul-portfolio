@@ -15,6 +15,9 @@ const projects = [
 ];
 
 const grid = document.querySelector('#project-grid');
+let projectVideoObserver = null;
+let activeProjectMedia = null;
+const projectVisibility = new Map();
 function renderProjects(filter = 'All Work') {
   const visible = projects.filter(project => filter === 'All Work' || project.category === filter);
   grid.innerHTML = visible.map(project => {
@@ -38,6 +41,7 @@ function renderProjects(filter = 'All Work') {
     image.removeAttribute('srcset');
     image.removeAttribute('data-fallback');
   }, { once: true }));
+  grid.querySelectorAll('.project-media').forEach(media => projectVideoObserver?.observe(media));
 }
 function escapeAttribute(value) { return String(value).replace(/[&"<>']/g, char => ({'&':'&amp;','"':'&quot;','<':'&lt;','>':'&gt;',"'":'&#39;'}[char])); }
 renderProjects();
@@ -80,7 +84,24 @@ document.querySelector('.filters').addEventListener('click', event => {
   renderProjects(button.dataset.filter);
 });
 
-function playProject(media) {
+function sendPlayerCommand(media, command) {
+  const iframe = media.querySelector('iframe');
+  if (!iframe?.contentWindow) return;
+  iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: command, args: [] }), '*');
+}
+function setProjectSound(media, enabled, fromClick = false) {
+  sendPlayerCommand(media, enabled ? 'unMute' : 'mute');
+  if (fromClick) {
+    media.dataset.soundOn = String(enabled);
+    const control = media.querySelector('.video-sound-toggle');
+    if (control) {
+      control.textContent = enabled ? 'Sound on' : 'Enable sound';
+      control.setAttribute('aria-label', enabled ? 'Mute video sound' : 'Enable video sound');
+      control.setAttribute('aria-pressed', String(enabled));
+    }
+  }
+}
+function playProject(media, { userInitiated = false } = {}) {
   const url = media.dataset.youtube.trim();
   if (!url) {
     media.classList.add('needs-video');
@@ -89,7 +110,21 @@ function playProject(media) {
   }
   const videoId = getYouTubeId(url);
   if (!videoId) return;
-  media.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&rel=0" title="Portfolio video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+  if (media.querySelector('iframe')) {
+    sendPlayerCommand(media, 'playVideo');
+    if (userInitiated) setProjectSound(media, true, true);
+    return;
+  }
+  const origin = location.origin.startsWith('http') ? `&origin=${encodeURIComponent(location.origin)}` : '';
+  media.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&mute=${userInitiated ? 0 : 1}&controls=1&playsinline=1&enablejsapi=1&rel=0${origin}" title="${escapeAttribute(media.getAttribute('aria-label').replace(/^Play /, ''))}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe><button class="video-sound-toggle" type="button" aria-label="${userInitiated ? 'Mute video sound' : 'Enable video sound'}" aria-pressed="${userInitiated}">${userInitiated ? 'Sound on' : 'Enable sound'}</button>`;
+  media.removeAttribute('role');
+  media.removeAttribute('tabindex');
+  media.removeAttribute('aria-label');
+  media.dataset.soundOn = String(userInitiated);
+  media.querySelector('.video-sound-toggle').addEventListener('click', event => {
+    event.stopPropagation();
+    setProjectSound(media, media.dataset.soundOn !== 'true', true);
+  });
 }
 function getYouTubeId(url) {
   try {
@@ -105,13 +140,37 @@ function getYouTubeId(url) {
 }
 
 grid.addEventListener('click', event => {
+  if (event.target.closest('.video-sound-toggle')) return;
   const media = event.target.closest('.project-media');
-  if (media) playProject(media);
+  if (media) playProject(media, { userInitiated: true });
 });
 grid.addEventListener('keydown', event => {
   if ((event.key === 'Enter' || event.key === ' ') && event.target.matches('.project-media')) {
-    event.preventDefault(); playProject(event.target);
+    event.preventDefault(); playProject(event.target, { userInitiated: true });
   }
+});
+
+// Autoplay the most visible portfolio video muted, pause it when it leaves
+// view, and attempt sound on desktop pointer entry. A tap can always enable it.
+if ('IntersectionObserver' in window) {
+  projectVideoObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => projectVisibility.set(entry.target, entry.isIntersecting ? entry.intersectionRatio : 0));
+    const nextMedia = [...projectVisibility.entries()]
+      .filter(([, ratio]) => ratio >= .58)
+      .sort((a, b) => b[1] - a[1])[0]?.[0] || null;
+    if (nextMedia === activeProjectMedia) return;
+    if (activeProjectMedia) sendPlayerCommand(activeProjectMedia, 'pauseVideo');
+    activeProjectMedia = nextMedia;
+    if (activeProjectMedia && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) playProject(activeProjectMedia);
+  }, { threshold: [.58, .8], rootMargin: '0px' });
+  grid.querySelectorAll('.project-media').forEach(media => projectVideoObserver.observe(media));
+}
+grid.addEventListener('pointerover', event => {
+  const media = event.target.closest('.project-media');
+  if (!media || event.pointerType !== 'mouse' || media.contains(event.relatedTarget)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (media.querySelector('iframe')) setProjectSound(media, true);
+  else playProject(media);
 });
 
 const themeToggle = document.querySelector('.theme-toggle');
