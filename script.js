@@ -11,7 +11,10 @@ const projects = [
   { title: 'Live Interviews', client: 'Sample Project', category: '', image: '', youtube: 'https://youtu.be/4rX4nM7UQI8' },
   { title: 'Lyrics Video', client: 'Sample Project', category: '', image: '', youtube: 'https://youtube.com/shorts/CGyXDTb2BTs?feature=share' },
   { title: 'Lyrics Video 2', client: 'Sample Project', category: '', image: '', youtube: 'https://youtube.com/shorts/ZMES6v5NB2U?feature=share' },
-  { title: 'Lyrics Video 3', client: 'Sample Project', category: '', image: '', youtube: 'https://youtube.com/shorts/gY3nIdRyjRw?feature=share' }
+  { title: 'Lyrics Video 3', client: 'Sample Project', category: '', image: '', youtube: 'https://youtube.com/shorts/gY3nIdRyjRw?feature=share' },
+  { title: 'Talking AD', client: 'Sample Project', category: '', image: '', youtube: 'https://youtube.com/shorts/IWt2DWgPQic?feature=share' },
+  { title: 'Talking AD 2', client: 'Sample Project', category: '', image: '', youtube: 'https://youtube.com/shorts/cdUVVcZSSw0?feature=share' },
+  { title: 'Talking AD 3', client: 'Sample Project', category: '', image: '', youtube: 'https://youtube.com/shorts/-28fCxzRT4Y?feature=share' }
 ];
 
 const grid = document.querySelector('#project-grid');
