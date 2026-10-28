@@ -2,11 +2,9 @@
 
 const projects = [
   { title: 'Shabang HighRise', client: 'Sample Project', category: '', image: 'photo-1441974231531-c6227db76b6e', youtube: 'https://youtu.be/ka4ZClQd04k' },
-  { title: 'After hours', client: 'Velocity · Sample campaign', category: 'Ads', image: 'photo-1519608487953-e999c86e7455', youtube: '' },
-  { title: 'The last encore', client: 'Echo Records · Sample project', category: 'Music Video', image: 'photo-1506157786151-b8491531f063', youtube: '' },
-  { title: 'City in motion', client: 'Studio 24 · Sample project', category: 'Reels / Shorts', image: 'photo-1519608487953-e999c86e7455', youtube: '' },
-  { title: 'Somewhere, elsewhere', client: 'Wander Journal · Sample project', category: 'YouTube', image: 'photo-1464822759023-fed622ff2c3b', youtube: '' },
-  { title: 'Built on a feeling', client: 'Frame Collective · Sample project', category: 'Corporate', image: 'photo-1501386761578-eac5c94b800a', youtube: '' }
+  { title: 'Classy Girls', client: 'Sample Project', category: '', image: '', youtube: 'https://youtube.com/shorts/96fqt3d1bW8?feature=share' },
+  { title: 'Pop dat thing', client: 'Sample Project', category: '', image: '', youtube: 'https://youtube.com/shorts/ySiHSCM7N9Y?feature=share' },
+  { title: 'Outside Today', client: 'Sample Project', category: '', image: '', youtube: 'https://youtube.com/shorts/omC6cmrX89k?feature=share' }
 ];
 
 const grid = document.querySelector('#project-grid');
