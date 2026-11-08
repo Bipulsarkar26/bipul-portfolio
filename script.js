@@ -254,3 +254,18 @@ if (dockLinks.length) {
     if (section) dockObserver.observe(section);
   });
 }
+
+const pageLoader = document.querySelector('#page-loader');
+if (pageLoader) {
+  let loaderDismissed = false;
+  const dismissLoader = () => {
+    if (loaderDismissed) return;
+    loaderDismissed = true;
+    pageLoader.classList.add('is-hidden');
+    pageLoader.setAttribute('aria-hidden', 'true');
+  };
+  const showPage = () => window.setTimeout(dismissLoader, 650);
+  if (document.readyState === 'complete') showPage();
+  else window.addEventListener('load', showPage, { once: true });
+  window.setTimeout(dismissLoader, 2400);
+}
