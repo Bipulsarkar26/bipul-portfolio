@@ -230,12 +230,16 @@ themeToggle.addEventListener('click', () => {
   setTheme(themeToggle.getAttribute('aria-checked') === 'true' ? 'dark' : 'light');
 });
 
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) { entry.target.classList.add('in-view'); observer.unobserve(entry.target); }
-  });
-}, { threshold: .12 });
-document.querySelectorAll('.section').forEach(section => observer.observe(section));
+if ('IntersectionObserver' in window) {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.classList.add('in-view'); observer.unobserve(entry.target); }
+    });
+  }, { threshold: .12 });
+  document.querySelectorAll('.section').forEach(section => observer.observe(section));
+} else {
+  document.querySelectorAll('.section').forEach(section => section.classList.add('in-view'));
+}
 
 const dockLinks = [...document.querySelectorAll('.mobile-dock a')];
 if (dockLinks.length) {
@@ -264,7 +268,7 @@ if (pageLoader) {
     pageLoader.classList.add('is-hidden');
     pageLoader.setAttribute('aria-hidden', 'true');
   };
-  const showPage = () => window.setTimeout(dismissLoader, 650);
+  const showPage = () => window.setTimeout(dismissLoader, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 650);
   if (document.readyState === 'complete') showPage();
   else window.addEventListener('load', showPage, { once: true });
   window.setTimeout(dismissLoader, 2400);

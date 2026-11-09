@@ -7,6 +7,7 @@
   <meta name="description" content="Bipul Sarkar — independent video editor based in India. Sharp cuts. Intentional color. A feeling that stays.">
   <title>Bipul Sarkar — Video Editor</title>
   <link rel="preload" as="video" href="assets/hero-background.mp4" type="video/mp4">
+  <link rel="preload" as="image" href="assets/hero-poster.jpg" fetchpriority="high">
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,6 +16,7 @@
   <script>try{document.documentElement.dataset.theme=localStorage.getItem('bipul-theme')==='light'?'light':'dark'}catch{document.documentElement.dataset.theme='dark'}</script>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
   <div class="page-loader" id="page-loader" role="status" aria-label="Loading Bipul Sarkar’s portfolio">
     <div class="loader-glass">
       <svg class="loader-seam" viewBox="0 0 18 100" preserveAspectRatio="none" aria-hidden="true"><path class="loader-seam-glow" d="M16 1C5 1 2 8 2 17v66c0 9 3 16 14 16"/><path class="loader-seam-core" d="M16 1C5 1 2 8 2 17v66c0 9 3 16 14 16"/></svg>
@@ -23,7 +25,7 @@
     </div>
   </div>
   <header class="site-header">
-    <a class="wordmark" href="#top" aria-label="Bipul, home">bipul.</a>
+    <a class="wordmark" href="#main-content" aria-label="Bipul, home">bipul.</a>
     <nav class="main-nav" aria-label="Main navigation">
       <a href="#work">Work</a><a href="#about">About</a><a href="#services">Services</a><a href="https://cal.com/bipul-sarkar-fqeyab" target="_blank" rel="noopener" aria-label="Book a Google Meet with Bipul">Let’s talk</a>
     </nav>
@@ -39,9 +41,9 @@
     <a href="#services" aria-label="Services"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2L12 3Z"></path><path d="m19 16 .9 2.1L22 19l-2.1.9L19 22l-.9-2.1L16 19l2.1-.9L19 16Z"></path></svg><span>Services</span></a>
     <a href="https://cal.com/bipul-sarkar-fqeyab" target="_blank" rel="noopener" aria-label="Book a Google Meet with Bipul"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-4 2 1.4-4A7.5 7.5 0 1 1 21 11.5Z"></path><path d="M8 11h8m-8 3h5"></path></svg><span>Let’s talk</span></a>
   </nav>
-  <main id="top">
+  <main id="main-content" tabindex="-1">
     <section class="hero">
-      <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="auto" aria-hidden="true" disablepictureinpicture>
+      <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="assets/hero-poster.jpg" aria-hidden="true" disablepictureinpicture>
         <source src="assets/hero-background.mp4" type="video/mp4">
       </video>
       <div class="hero-shade"></div>
@@ -57,7 +59,7 @@
     <section class="section work-section" id="work">
       <p class="eyebrow">01 / Selected work</p>
       <h2>Every cut has a purpose.</h2>
-      <p class="section-intro">A selection of stories, campaigns, and moments. All projects below are illustrative placeholders.</p>
+      <p class="section-intro">A selection of creator stories, campaigns, and moments—edited to make every cut count.</p>
       <div class="filters" role="group" aria-label="Filter projects">
         <button class="filter active" data-filter="All Work">Work</button>
       </div>
@@ -65,9 +67,8 @@
     </section>
 
     <section class="section about-section" id="about">
-      <div class="portrait" role="img" aria-label="Portrait placeholder"></div>
+      <div class="portrait" role="img" aria-label="Portrait of Bipul Sarkar"></div>
       <div class="about-copy"><p class="eyebrow">02 / The person behind the timeline</p><h2>A good edit is felt, not noticed.</h2><p>I’m Bipul, a freelance video editor working with creators, brands, and agencies. I bring rhythm to stories, clarity to ideas, and a cinematic eye to every frame. From a first assembly to the final color pass, I care about the details that make people feel something.</p>
-        <div class="stats"><div><strong>2+</strong><span>Years editing · sample</span></div><div><strong>100+</strong><span>Projects delivered · sample</span></div></div>
       </div>
     </section>
 
@@ -80,7 +81,7 @@
         <article class="service-card"><span>04</span><h3>Color grading</h3><p>Balanced skin tones, consistent shots, and a deliberate cinematic look that serves the story.</p></article>
         <article class="service-card"><span>05</span><h3>Personal branding</h3><p>Editing creator-led content that communicates your story, strengthens your personal brand, and keeps viewers engaged.</p></article>
       </div>
-      <div class="toolkit"><p class="eyebrow">The toolkit / built for your workflow</p><div><span>DaVinci Resolve</span><span>Wondershare Filmora</span><span>Capcut</span><span>Canva</span></div></div>
+      <div class="toolkit"><p class="eyebrow">The toolkit / built for your workflow</p><div><span>DaVinci Resolve</span><span>Wondershare Filmora</span><span>CapCut</span><span>Canva</span></div></div>
     </section>
 
     <section class="section testimonials-section">
@@ -103,7 +104,7 @@
     </section>
 
     <section class="section contact-section" id="contact">
-      <div class="contact-copy"><p class="eyebrow">05 / Let’s make something</p><h2>Have a story in mind?</h2><p>Tell me what you’re making. A few details about your project, timeline, and budget are a great place to start.</p>
+      <div class="contact-copy"><p class="eyebrow">06 / Let’s make something</p><h2>Have a story in mind?</h2><p>Tell me what you’re making. A few details about your project, timeline, and budget are a great place to start.</p>
         <span class="availability"><i></i>Currently available for projects</span>
         <a class="email gmail-link" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=sarkarbipul05286%40gmail.com&amp;su=Video%20editing%20or%20personal%20branding%20project&amp;body=Hi%20Bipul!%20I%20came%20across%20your%20portfolio%20and%20would%20love%20to%20discuss%20a%20potential%20video%20editing%20or%20personal%20branding%20project%20with%20you." target="_blank" rel="noopener" aria-label="Open Gmail compose to email Bipul">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7v11" stroke="#4285f4"></path><path d="M3 7l9 7" stroke="#ea4335"></path><path d="m12 14 9-7" stroke="#fbbc04"></path><path d="M21 7v11" stroke="#34a853"></path><path d="M3 7 5 5l7 5 7-5 2 2" stroke="#ea4335"></path></svg>
