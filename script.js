@@ -268,7 +268,7 @@ if (pageLoader) {
     pageLoader.classList.add('is-hidden');
     pageLoader.setAttribute('aria-hidden', 'true');
   };
-  const showPage = () => window.setTimeout(dismissLoader, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 650);
+  const showPage = () => window.setTimeout(dismissLoader, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 1250);
   if (document.readyState === 'complete') showPage();
   else window.addEventListener('load', showPage, { once: true });
   window.setTimeout(dismissLoader, 2400);
