@@ -287,3 +287,15 @@ html[data-theme="light"] .email.gmail-link{border-color:rgba(255,255,255,.94);bo
   *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
   .hero-video{display:none}
 }
+
+/* Let the light-theme hero dissolve into the page instead of ending on black. */
+html[data-theme="light"] .hero:before{
+  background:linear-gradient(180deg,
+    rgba(0,0,0,.18) 0%,
+    rgba(0,0,0,.2) 58%,
+    rgba(0,0,0,.56) 78%,
+    #090909 86%,
+    var(--bg) 100%);
+}
+html[data-theme="light"] .hero{padding-bottom:14%}
+@media(max-width:650px){html[data-theme="light"] .hero{padding-bottom:clamp(92px,15vh,132px)}}
