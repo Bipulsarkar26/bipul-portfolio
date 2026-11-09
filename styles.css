@@ -244,12 +244,13 @@ html[data-theme="light"] .email.gmail-link{border-color:rgba(255,255,255,.94);bo
 .loader-light-one{left:10%;bottom:4%;background:radial-gradient(ellipse,rgba(255,95,66,.82),rgba(180,48,56,.2) 56%,transparent 75%);animation:loader-light-one 6s ease-in-out infinite alternate}
 .loader-light-two{right:5%;bottom:-10%;background:radial-gradient(ellipse,rgba(189,68,225,.82),rgba(114,50,178,.18) 58%,transparent 76%);animation:loader-light-two 7s ease-in-out infinite alternate}
 .loader-light-three{right:-8%;top:4%;background:radial-gradient(ellipse,rgba(78,173,225,.54),rgba(53,98,164,.12) 58%,transparent 76%);animation:loader-light-three 8s ease-in-out infinite alternate}
+@font-face{font-family:'Edges';src:url('assets/Edges.ttf') format('truetype');font-style:normal;font-weight:400;font-display:swap}
 .loader-mark{
   position:relative;z-index:3;padding:0 .1em 0 0;
   color:#fff;background:linear-gradient(180deg,#fff 8%,#f8f8fb 33%,#b8bbc5 49%,#fff 62%,#e8eaf0 100%);
   background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  font-family:'DM Sans',Arial,sans-serif;font-size:clamp(86px,21vw,132px);font-weight:700;
-  letter-spacing:-.105em;line-height:.9;-webkit-text-stroke:1px rgba(255,255,255,.52);
+  font-family:'Edges','DM Sans',Arial,sans-serif;font-size:clamp(36px,9vw,58px);font-weight:400;
+  letter-spacing:-.045em;line-height:1;-webkit-text-stroke:1px rgba(255,255,255,.52);white-space:nowrap;
   filter:drop-shadow(0 1px 1px rgba(255,255,255,.62)) drop-shadow(0 8px 24px rgba(0,0,0,.48));
 }
 @keyframes loader-overlay-in{from{opacity:0}to{opacity:1}}
