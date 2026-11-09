@@ -6,8 +6,7 @@
   <meta name="theme-color" content="#090909">
   <meta name="description" content="Bipul Sarkar — independent video editor based in India. Sharp cuts. Intentional color. A feeling that stays.">
   <title>Bipul Sarkar — Video Editor</title>
-  <link rel="preload" as="video" href="assets/hero-background.mp4" type="video/mp4">
-  <link rel="preload" as="image" href="assets/hero-poster.jpg" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/hero-poster.jpg" fetchpriority="high" id="hero-poster-preload">
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,9 +42,7 @@
   </nav>
   <main id="main-content" tabindex="-1">
     <section class="hero">
-      <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="assets/hero-poster.jpg" aria-hidden="true" disablepictureinpicture>
-        <source src="assets/hero-background.mp4" type="video/mp4">
-      </video>
+      <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="none" data-dark-video="assets/hero-background.mp4" data-light-video="assets/hero-background-light.mp4" data-dark-poster="assets/hero-poster.jpg" data-light-poster="assets/hero-poster-light.jpg" poster="assets/hero-poster.jpg" aria-hidden="true" disablepictureinpicture></video>
       <div class="hero-shade"></div>
       <div class="hero-content">
         <p class="eyebrow">Independent video editor / based in India</p>
