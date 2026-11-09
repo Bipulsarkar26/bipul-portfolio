@@ -286,25 +286,5 @@ html[data-theme="light"] .email.gmail-link{border-color:rgba(255,255,255,.94);bo
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
   .hero-video{display:none}
-  html[data-theme="light"] .hero{background:linear-gradient(to bottom,transparent 76%,var(--bg) 100%),url('assets/hero-poster.jpg') center/cover no-repeat}
-  html[data-theme="light"] .hero:before{background:linear-gradient(180deg,rgba(0,0,0,.18) 0%,rgba(0,0,0,.2) 70%,transparent 84%)}
-}
-
-/* Fade the moving image itself into the light page, without a dark/gray band. */
-html[data-theme="light"] .hero{background:var(--bg)}
-html[data-theme="light"] .hero-video{
-  background-image:url('assets/hero-poster-light.jpg');
-  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 78%,transparent 100%);
-  mask-image:linear-gradient(to bottom,#000 0%,#000 78%,transparent 100%);
-}
-html[data-theme="light"] .hero:before{
-  background:linear-gradient(180deg,
-    rgba(0,0,0,.24) 0%,
-    rgba(0,0,0,.3) 48%,
-    rgba(0,0,0,.34) 70%,
-    rgba(0,0,0,.24) 82%,
-    transparent 92%);
-}
-@media(prefers-reduced-motion:reduce){
-  html[data-theme="light"] .hero{background:linear-gradient(to bottom,transparent 76%,var(--bg) 100%),url('assets/hero-poster-light.jpg') center/cover no-repeat}
+  html[data-theme="light"] .hero{background:url('assets/hero-poster.jpg') center/cover no-repeat}
 }

@@ -57,13 +57,12 @@ function attachThumbnailFallbacks(scope) {
 // Mobile browsers can defer autoplay until the video is ready or the page
 // returns to the foreground. Retry then, and after a user gesture if required.
 const heroVideo = document.querySelector('.hero-video');
-let startHeroVideo = () => {};
 if (heroVideo) {
   heroVideo.muted = true;
   heroVideo.defaultMuted = true;
   heroVideo.playsInline = true;
   let retryArmed = false;
-  startHeroVideo = () => {
+  const startHeroVideo = () => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     if (document.visibilityState === 'hidden' || !heroVideo.paused) return;
     const playAttempt = heroVideo.play();
@@ -85,29 +84,6 @@ if (heroVideo) {
   );
   window.addEventListener('pageshow', startHeroVideo, { passive: true });
   document.addEventListener('visibilitychange', startHeroVideo);
-}
-
-function setHeroVideoTheme(theme) {
-  if (!heroVideo) return;
-  const light = theme === 'light';
-  const source = light ? heroVideo.dataset.lightVideo : heroVideo.dataset.darkVideo;
-  const poster = light ? heroVideo.dataset.lightPoster : heroVideo.dataset.darkPoster;
-  heroVideo.poster = poster;
-  const posterPreload = document.querySelector('#hero-poster-preload');
-  if (posterPreload) posterPreload.href = poster;
-
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    heroVideo.pause();
-    heroVideo.removeAttribute('src');
-    heroVideo.dataset.activeVideo = '';
-    heroVideo.load();
-    return;
-  }
-  if (heroVideo.dataset.activeVideo === source) return;
-  heroVideo.pause();
-  heroVideo.dataset.activeVideo = source;
-  heroVideo.src = source;
-  heroVideo.load();
   startHeroVideo();
 }
 
@@ -243,7 +219,6 @@ function setTheme(theme, persist = true) {
   themeToggle.setAttribute('aria-label', `Switch to ${light ? 'dark' : 'light'} theme`);
   themeToggle.querySelector('.theme-label').textContent = light ? 'Light' : 'Dark';
   themeMeta.content = light ? '#f2f4f6' : '#090909';
-  setHeroVideoTheme(theme);
   if (persist) {
     try { localStorage.setItem('bipul-theme', light ? 'light' : 'dark'); } catch {}
   }
