@@ -247,12 +247,11 @@ html[data-theme="light"] .email.gmail-link{border-color:rgba(255,255,255,.94);bo
 @font-face{font-family:'Edges';src:url('assets/Edges.ttf') format('truetype');font-style:normal;font-weight:400;font-display:swap}
 .loader-mark{
   position:relative;z-index:3;padding:0 .1em 0 0;
-  color:#fff;background:linear-gradient(180deg,#fff 2%,#f5f6fa 20%,#b3b7c1 47%,#fff 54%,#c7cbd5 75%,#f5f5f8 100%);
+  color:rgba(255,255,255,.58);background:linear-gradient(180deg,rgba(255,255,255,.9) 2%,rgba(239,242,249,.74) 20%,rgba(166,174,190,.44) 47%,rgba(255,255,255,.82) 54%,rgba(187,195,210,.52) 75%,rgba(244,246,250,.72) 100%);
   background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
   font-family:'Edges','DM Sans',Arial,sans-serif;font-size:clamp(36px,9vw,58px);font-weight:400;
-  letter-spacing:-.045em;line-height:1;-webkit-text-stroke:1.1px rgba(255,255,255,.72);white-space:nowrap;
-  text-shadow:0 -1px 0 rgba(255,255,255,.68),0 1px 0 rgba(255,255,255,.34),0 2px 2px rgba(0,0,0,.7),0 0 20px rgba(255,255,255,.22);
-  filter:drop-shadow(0 1px 1px rgba(255,255,255,.62)) drop-shadow(0 8px 24px rgba(0,0,0,.48));
+  letter-spacing:-.045em;line-height:1;-webkit-text-stroke:1px rgba(255,255,255,.42);white-space:nowrap;
+  text-shadow:0 1px 0 rgba(255,255,255,.44),0 -1px 0 rgba(15,17,27,.34),0 2px 2px rgba(0,0,0,.3);
 }
 @keyframes loader-overlay-in{from{opacity:0}to{opacity:1}}
 @keyframes loader-bubble-in{0%{opacity:0;transform:translateY(24px) scale(.72);filter:blur(12px)}72%{opacity:1;transform:translateY(-4px) scale(1.025);filter:blur(0)}100%{opacity:1;transform:translateY(0) scale(1)}}
