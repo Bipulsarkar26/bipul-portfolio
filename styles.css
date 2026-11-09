@@ -244,8 +244,14 @@ html[data-theme="light"] .email.gmail-link{border-color:rgba(255,255,255,.94);bo
 .loader-light-one{left:10%;bottom:4%;background:radial-gradient(ellipse,rgba(255,95,66,.82),rgba(180,48,56,.2) 56%,transparent 75%);animation:loader-light-one 6s ease-in-out infinite alternate}
 .loader-light-two{right:5%;bottom:-10%;background:radial-gradient(ellipse,rgba(189,68,225,.82),rgba(114,50,178,.18) 58%,transparent 76%);animation:loader-light-two 7s ease-in-out infinite alternate}
 .loader-light-three{right:-8%;top:4%;background:radial-gradient(ellipse,rgba(78,173,225,.54),rgba(53,98,164,.12) 58%,transparent 76%);animation:loader-light-three 8s ease-in-out infinite alternate}
-.loader-mark{position:relative;z-index:3;color:rgba(255,255,255,.96);font-family:'DM Sans',Arial,sans-serif;font-size:clamp(86px,21vw,132px);font-weight:700;letter-spacing:-.105em;line-height:.9;padding-right:.1em;text-shadow:0 2px 2px rgba(255,255,255,.46),0 8px 30px rgba(0,0,0,.34);-webkit-text-stroke:1px rgba(255,255,255,.24)}
-.loader-caption{position:relative;z-index:3;color:rgba(255,255,255,.83);font-size:clamp(11px,2vw,14px);font-weight:600;letter-spacing:.32em;text-transform:uppercase;padding-left:.32em;text-shadow:0 2px 12px rgba(0,0,0,.5)}
+.loader-mark{
+  position:relative;z-index:3;padding:0 .1em 0 0;
+  color:#fff;background:linear-gradient(180deg,#fff 8%,#f8f8fb 33%,#b8bbc5 49%,#fff 62%,#e8eaf0 100%);
+  background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  font-family:'DM Sans',Arial,sans-serif;font-size:clamp(86px,21vw,132px);font-weight:700;
+  letter-spacing:-.105em;line-height:.9;-webkit-text-stroke:1px rgba(255,255,255,.52);
+  filter:drop-shadow(0 1px 1px rgba(255,255,255,.62)) drop-shadow(0 8px 24px rgba(0,0,0,.48));
+}
 @keyframes loader-overlay-in{from{opacity:0}to{opacity:1}}
 @keyframes loader-bubble-in{0%{opacity:0;transform:translateY(24px) scale(.72);filter:blur(12px)}72%{opacity:1;transform:translateY(-4px) scale(1.025);filter:blur(0)}100%{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes loader-float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-6px) scale(1.008)}}
